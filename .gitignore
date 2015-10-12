@@ -1,0 +1,11 @@
+# Liste des fichiers et dossiers à ignorer...
+/RemoteSystemsTempFiles
+/Documentation/html/*
+/Documentation/rtf/*
+/.settings/language.settings.xml
+*.o
+*.d
+*.mk
+*.lst
+makefile
+/Debug/
