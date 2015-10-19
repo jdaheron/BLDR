@@ -25,7 +25,8 @@
 
 //TODO : Choix de la cible
 #define USE_EVAL_BOARD_OLIMEX	0
-#define USE_TARGET_BOARD		1
+#define USE_TARGET_BOARD		0
+#define USE_HW_V1				1
 
 // Adresse de base pour les fonctionnalites de test
 #define TEST_BASE_ADDRESS		0x60
@@ -477,10 +478,130 @@ static const MappingGpio_s MappingGpio[] = {
 
 };
 
-#endif
+#elif USE_HW_V1
 
-//#define PORT_CONSOLE_TX		USART1_TX
-//#define PORT_CONSOLE_RX		USART1_RX
+
+/** Index du Mapping uC. */
+typedef enum{
+
+	PORT_CONSOLE_TX = 0,
+	PORT_CONSOLE_RX,
+
+	PORT_LED_LB,
+	PORT_IHM_LED1,
+	PORT_IHM_LED2,
+	PORT_IHM_LED3,
+
+	PORT_RELAIS_L,
+	PORT_RELAIS_CH,
+	PORT_RELAIS_V_INT,
+	PORT_RELAIS_V_EXT,
+	PORT_RELAIS_OPT1,
+	PORT_RELAIS_OPT2,
+	PORT_RELAIS_OPT3,
+
+	PORT_ETH_RMII_REF_CLK,
+	PORT_ETH_RMII_MDIO,
+	PORT_ETH_RMII_MDINT,
+	PORT_ETH_RMII_CRS_DV,
+	PORT_ETH_RMII_TX_EN,
+	PORT_ETH_RMII_MDC,
+	PORT_ETH_RMII_RXD0,
+	PORT_ETH_RMII_RXD1,
+    PORT_ETH_RMII_TXD0,
+	PORT_ETH_RMII_TXD1,
+
+	PORT_OTG_FS_DM,
+	PORT_OTG_FS_DP,
+
+	PORT_SPI1_SCK,
+	PORT_SPI1_MISO,
+	PORT_SPI1_MOSI,
+	PORT_SPI1_CS_SD,
+	PORT_SPI1_CS_IHM_TS,
+
+	PORT_I2C1_SCL,
+	PORT_I2C1_SDA,
+
+	PORT_WKUP,
+
+	/* FIN DU MAPPING */
+	NB_PORT_GPIO,	// Doit etre conserve en fin d'enum pour connaitre la taille de la table de mapping uC.
+
+
+//	PORT_STAT1,
+//	PORT_STAT2,
+//	PORT_STAT4,
+
+	PORT_TRIM,
+
+
+
+} MappingGpio_e;
+
+
+/** Mapping uC. */
+static const MappingGpio_s MappingGpio[] = {
+
+/*									PORT	PIN		INVERSE		MODE			ALTERN. FCT		SPEED				OUTPUT TYPE		Pu-Pd				INIT			PERIPH				PARAM				*/
+/*																																															- ADC_Channel		*/
+/*																																															- TIM_Channel		*/
+/* XX ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* PORT_CONSOLE_TX			*/	{	GPIOA,	 9	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_USART1,	GPIO_Speed_50MHz,	NULL,			GPIO_PuPd_NOPULL	, NULL			, (uint32_t) USART1	, NULL				},
+/* PORT_CONSOLE_RX			*/	{	GPIOA,	 10	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_USART1,	GPIO_Speed_50MHz,	NULL,			GPIO_PuPd_NOPULL	, NULL			, (uint32_t) USART1	, NULL				},
+
+/* PORT_LED_LB				*/	{	GPIOA,	15	,	TRUE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_IHM_LED1			*/	{	GPIOE,	 4	,	TRUE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_IHM_LED2			*/	{	GPIOE,	 5	,	TRUE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_IHM_LED3			*/	{	GPIOE,	 6	,	TRUE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+
+/* PORT_RELAIS_L			*/	{	GPIOC,	 3	,	FALSE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_RELAIS_CH			*/	{	GPIOA,	 6	,	FALSE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_RELAIS_V_INT		*/	{	GPIOB,	 0	,	FALSE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_RELAIS_V_EXT		*/	{	GPIOD,	 6	,	FALSE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_RELAIS_OPT1			*/	{	GPIOD,	 3	,	FALSE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_RELAIS_OPT2			*/	{	GPIOB,	 14	,	FALSE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_RELAIS_OPT3			*/	{	GPIOB,	 15	,	FALSE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_2MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+
+
+/* PORT_ETH_RMII_REF_CLK	*/	{	GPIOA,	 1	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_MDIO		*/	{	GPIOA,	 2	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_MDINT		*/	{	GPIOA,	 3	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_CRS_DV		*/	{	GPIOA,	 7	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_TX_EN		*/	{	GPIOB,	11	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_TXD0		*/	{	GPIOB,	12	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_TXD1		*/	{	GPIOB,	13	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_MDC		*/	{	GPIOC,	 1	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_RXD0		*/	{	GPIOC,	 4	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+/* PORT_ETH_RMII_RXD1		*/	{	GPIOC,	 5	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_ETH,	GPIO_Speed_100MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ETH	, NULL				},
+
+/* PORT_OTG_FS_DM			*/	{	GPIOA,	11	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_OTG_FS,	GPIO_Speed_100MHz,	NULL,			GPIO_PuPd_NOPULL	, NULL			, NULL				, NULL				},
+/* PORT_OTG_FS_DP			*/	{	GPIOA,	12	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_OTG_FS,	GPIO_Speed_100MHz,	NULL,			GPIO_PuPd_NOPULL	, NULL			, NULL				, NULL				},
+
+/* PORT_SPI1_SCK			*/	{	GPIOB,	 3	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_SPI1,	GPIO_Speed_50MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, NULL			, (uint32_t) SPI1	, NULL				},
+/* PORT_SPI1_MISO			*/	{	GPIOB,	 4	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_SPI1,	GPIO_Speed_50MHz,	NULL,			GPIO_PuPd_UP		, NULL			, (uint32_t) SPI1	, NULL				},
+/* PORT_SPI1_MOSI			*/	{	GPIOB,	 5	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_SPI1,	GPIO_Speed_50MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, NULL			, (uint32_t) SPI1	, NULL				},
+/* PORT_SPI1_CS_SD			*/	{	GPIOB,	 2	,	TRUE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_50MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+/* PORT_SPI1_CS_IHM_TS		*/	{	GPIOB,	 1	,	TRUE	,	GPIO_Mode_OUT,	NULL,			GPIO_Speed_50MHz,	GPIO_OType_PP,	GPIO_PuPd_NOPULL	, Etat_INACTIF	, NULL				, NULL				},
+
+/* PORT_I2C_SCL				*/	{	GPIOB,	 6	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_I2C1,	GPIO_Speed_50MHz,	GPIO_OType_OD,	GPIO_PuPd_NOPULL	, NULL			, (uint32_t) I2C1	, NULL				},
+/* PORT_I2C_SDA				*/	{	GPIOB,	 7	,	FALSE	,	GPIO_Mode_AF,	GPIO_AF_I2C1,	GPIO_Speed_50MHz,	GPIO_OType_OD,	GPIO_PuPd_NOPULL	, NULL			, (uint32_t) I2C1	, NULL				},
+
+/* PORT_WKUP				*/	{	GPIOA,	 0	,	FALSE	,	GPIO_Mode_IN,	NULL,			GPIO_Speed_2MHz,	NULL,			GPIO_PuPd_NOPULL	, NULL			, NULL				, NULL				},
+
+
+/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/* FIN DES PIN INITIALISEES ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* PORT_TRIM				*/	{	GPIOC,	 0	,	FALSE	,	GPIO_Mode_AN,	NULL,			GPIO_Speed_2MHz,	NULL,			GPIO_PuPd_NOPULL	, Etat_INACTIF	, (uint32_t) ADC1	, ADC_Channel_10	},
+
+
+
+};
+
+#endif
 
 
 /* Inclusion des peripheriques -----------------------------------------------*/
@@ -519,31 +640,36 @@ static const MappingGpio_s MappingGpio[] = {
 /* Exported macro ------------------------------------------------------------*/
 
 // CONSOLE
-#define HAL_Console_Init			USART3_Init
-#define HAL_Console_Read			USART3_Read
-#define HAL_Console_Write			USART3_Write
+#define HAL_Console_Init			USART1_Init
+#define HAL_Console_Read			USART1_Read
+#define HAL_Console_Write			USART1_Write
 
 // COMMUNICATION PC
-#define HAL_PC_Init					USART6_Init
-#define HAL_PC_DeInit				USART6_DeInit
-#define HAL_PC_Read					USART6_Read
-#define HAL_PC_Write				USART6_Write
+#define HAL_PC_Init					USART1_Init
+#define HAL_PC_DeInit				USART1_DeInit
+#define HAL_PC_Read					USART1_Read
+#define HAL_PC_Write				USART1_Write
 
 // CARTE SD SUR SPI3
-#define HAL_SdSpi_Init(x)			SPI3_Init(x)
-#define HAL_SdSpi_Deinit			SPI3_DeInit
-#define HAL_SdSpi_Read				SPI3_Read
-#define HAL_SdSpi_Write(x) 			SPI3_Write(x)
-#define HAL_SdSpi_Select()			GPIO_Set(PORT_SD_CMD, Etat_ACTIF)
-#define HAL_SdSpi_Deselect()		GPIO_Set(PORT_SD_CMD, Etat_INACTIF)
+#define HAL_SdSpi_Init(x)			SPI1_Init(x)
+#define HAL_SdSpi_Deinit			SPI1_DeInit
+#define HAL_SdSpi_Read				SPI1_Read
+#define HAL_SdSpi_Write(x) 			SPI1_Write(x)
+#define HAL_SdSpi_Select()			GPIO_Set(PORT_SPI1_CS_SD, Etat_ACTIF)
+#define HAL_SdSpi_Deselect()		GPIO_Set(PORT_SPI1_CS_SD, Etat_INACTIF)
 
 // TEMPERATURE (MAX6675) SUR SPI3
-#define HAL_MAX6675_Init(x)			SPI3_Init(x)
-#define HAL_MAX6675_Deinit			SPI3_DeInit
-#define HAL_MAX6675_Read			SPI3_Read
-#define HAL_MAX6675_Write(x)		SPI3_Write(x)
-#define HAL_MAX6675_Select()		GPIO_Set(PORT_CS_UEXT, Etat_ACTIF)
-#define HAL_MAX6675_Deselect()		GPIO_Set(PORT_CS_UEXT, Etat_INACTIF)
+//#define HAL_MAX6675_Init(x)			SPI3_Init(x)
+//#define HAL_MAX6675_Deinit			SPI3_DeInit
+//#define HAL_MAX6675_Read			SPI3_Read
+//#define HAL_MAX6675_Write(x)		SPI3_Write(x)
+//#define HAL_MAX6675_Select()		GPIO_Set(PORT_CS_UEXT, Etat_ACTIF)
+//#define HAL_MAX6675_Deselect()		GPIO_Set(PORT_CS_UEXT, Etat_INACTIF)
+
+// EEPROM SUR I2C1
+#define HAL_EEPROM_ReadBuffer(a,b,c,d)	I2C1_ReadBuffer(a,b,c,d)
+#define HAL_EEPROM_WriteBuffer(a,b,c,d)	I2C1_WriteBuffer(a,b,c,d)
+
 
 /* Exported functions ------------------------------------------------------- */
 

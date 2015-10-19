@@ -49,7 +49,7 @@
 
 /* External Variables *****************************************************************************/
 
-const char VERSION_SW[] = {"00002AA"};
+const char VERSION_SW[] = {"00002AB"};
 // Definition de l'offset d'execution en fonction de l'option de compilation
 // Modifier aussi le script du linker...
 const uint32_t OFFSET = 0x00000000;
@@ -190,7 +190,7 @@ void LifeBit_Main()
 
 		}
 
-		GPIO_Set(PORT_STAT1, Etat);
+		GPIO_Set(PORT_LED_LB, Etat);
 	}
 }
 
@@ -224,18 +224,19 @@ int main(void)
 	MemoireFAT_Init((Diskio_drvTypeDef*) &SdCard_SPI_Driver);
 
 	/* configure ethernet (GPIOs, clocks, MAC, DMA) */
-	ETH_BSP_Config();
+	//ETH_BSP_Config();
 
 	/* Init LwIP stack */
-	LwIP_Init();
+	//LwIP_Init();
 
 	/* Init services */
-	tftpd_init();
-	telnet_init();
+	//tftpd_init();
+	//telnet_init();
 
 	_printf("--- StartupTime=%dms ---\n\n", TSW_GetTimestamp_ms());
 	while(1)
 	{
+#if 0
 		/* check if any packet received */
 		if (ETH_CheckFrameReceived())
 		{
@@ -245,7 +246,7 @@ int main(void)
 
 		/* handle periodic timers for LwIP */
 		LwIP_Periodic_Handle(TSW_GetTimestamp_ms());
-
+#endif
 		//----------------------------------
 		// PROCESSUS
 		LifeBit_Main();
